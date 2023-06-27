@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="groups.js" defer></script>
+  </head>
+  <body>
+    <h1 class="select">Select your groups</h1>
+    <div id="groups"></div>
+
+    <h1 class="select">Add you group</h1>
+    <form id="addgroup">
+      <label for="groupname">Group name:</label>
+      <input type="text" name="groupname" id="groupname" required />
+      <button class="submit" type="submit">Add</button>
+    </form>
+  </body>
+</html>
