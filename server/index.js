@@ -25,7 +25,7 @@ const loginUserSchema = Joi.object({
 });
 
 const registerUserSchema = Joi.object({
-  // full_name: Joi.string().required(),
+  full_name: Joi.string().required(),
   // eslint-disable-next-line newline-per-chained-call
   email: Joi.string().email().trim().lowercase().required(),
   password: Joi.string().required(),
@@ -53,15 +53,22 @@ server.post('/register', async (req, res) => {
 
   try {
     const encryptedPassword = await bcrypt.hash(payload.password, 10);
-    await dbPool.execute(
+    const [response] = await dbPool.execute(
       `
             INSERT INTO users (full_name, email, password)
             VALUES (?, ?, ?)
         `,
       [payload.full_name, payload.email, encryptedPassword],
     );
-
-    return res.status(201).end();
+    const token = jwt.sign(
+      {
+        name: payload.name,
+        email: payload.email,
+        id: response.insertId,
+      },
+      process.env.JWT_SECRET,
+    );
+    return res.status(201).send({ token });
   } catch (error) {
     console.error(error);
     return res.status(500).end();
