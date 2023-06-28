@@ -68,7 +68,7 @@ server.post('/register', async (req, res) => {
       },
       process.env.JWT_SECRET,
     );
-    return res.status(201).send({ token });
+    return res.status(201).json({ token });
   } catch (error) {
     console.error(error);
     return res.status(500).end();
@@ -116,7 +116,7 @@ server.post('/login', async (req, res) => {
         },
         process.env.JWT_SECRET,
       );
-      return res.status(200).send({ token });
+      return res.status(200).json({ token });
     }
 
     return res.status(400).send({ error: 'Email or password did not match' });
@@ -154,4 +154,74 @@ server.post('/groups', async (req, res) => {
   }
 });
 
+// POST /accounts - endpoint'as skirtas priskirti vartotoją kažkuriai grupei.
+// Vartotojas paduoda group_id ir savo token, iš kurio galite pasiimti user_id.
+// Sukuriamas įrašas lentelėje accounts.
+
+server.post('/accounts', authenticate, async (req, res) => {
+  try {
+    // const payload = {
+    //   group_id: req.body.group_id,
+    //   user_id: req.user.id,
+    // };
+    const [response] = await dbPool.execute(
+      'INSERT INTO accounts (group_id, user_id) VALUES (?, ?)',
+      [req.params.group_id, req.user.id],
+    );
+    return res.status(201).json(response);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).end();
+  }
+});
+
+// GET /accounts - paduoda visas prisijungusio vartotojo grupes
+// (reikės JOIN operacijos su groups lentele).
+// Vėl, user_id pasiimame iš token.
+
+server.get('/accounts', authenticate, async (req, res) => {
+  try {
+    const [accounts] = await dbPool.query(
+      'SELECT accounts.group_id, bill_groups.id, bill_groups.name  FROM accounts LEFT JOIN bill_groups ON accounts.group_id = bill_groups .id  WHERE user_id=?',
+      [req.user.id],
+    );
+    console.log(authenticate);
+    return res.json(accounts);
+  } catch (err) {
+    return res.status(500).end();
+  }
+});
+
+// GET /bills/:group_id – endpointas skirtas grąžinti
+// visas konkrečiai grupei skirtas sąskaitas/išlaidas.
+
+server.get('/bills/:group_id', async (req, res) => {
+  try {
+    const [bills] = await dbPool.query(
+      'SELECT amount, description FROM bills WHERE group_id=?',
+      [req.params.group_id],
+    );
+    return res.json(bills);
+  } catch (err) {
+    return res.status(500).end();
+  }
+});
+
+// POST /bills - įrašo naują sąskaitą specifinei grupei
+// (šis endpoint'as turėtų priimti: , amount, description).
+
+server.post('/bills', async (req, res) => {
+  try {
+    const payload = {
+      amount: req.body.amount,
+      description: req.body.description,
+      group_id: req.body.group_id,
+    };
+    const [response] = await dbPool.query('INSERT INTO bills SET ?', [payload]);
+    return res.status(201).json(response);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).end();
+  }
+});
 server.listen(8080, () => console.log('Server is running on port 8080'));
