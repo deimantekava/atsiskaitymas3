@@ -160,13 +160,9 @@ server.post('/groups', async (req, res) => {
 
 server.post('/accounts', authenticate, async (req, res) => {
   try {
-    // const payload = {
-    //   group_id: req.body.group_id,
-    //   user_id: req.user.id,
-    // };
     const [response] = await dbPool.execute(
       'INSERT INTO accounts (group_id, user_id) VALUES (?, ?)',
-      [req.params.group_id, req.user.id],
+      [req.body.group_id, req.user.id],
     );
     return res.status(201).json(response);
   } catch (err) {
@@ -201,6 +197,15 @@ server.get('/bills/:group_id', async (req, res) => {
       'SELECT amount, description FROM bills WHERE group_id=?',
       [req.params.group_id],
     );
+    return res.json(bills);
+  } catch (err) {
+    return res.status(500).end();
+  }
+});
+
+server.get('/bills', async (req, res) => {
+  try {
+    const [bills] = await dbPool.query('SELECT amount, description FROM bills');
     return res.json(bills);
   } catch (err) {
     return res.status(500).end();
