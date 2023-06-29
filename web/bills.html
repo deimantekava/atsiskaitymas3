@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bills</title>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="bills.js" defer></script>
+  </head>
+  <body>
+    <h1>Add bill</h1>
+    <form>
+      <label for="billamount">Amount:</label>
+      <input type="text" name="billamount" id="billamount" required />
+      <label for="billdescription">Description:</label>
+      <input
+        type="textarea"
+        name="billdescription"
+        id="billdescription"
+        required
+      />
+      <button class="submit" type="submit">Add</button>
+    </form>
+
+    <h1>Group's bills:</h1>
+    <div></div>
+  </body>
+</html>
