@@ -7,9 +7,24 @@ if (!token) {
 
 const API_BASE = 'http://localhost:8080';
 
-const allGroups = document.getElementById('groups');
+const allGroups = document.getElementById('allgroups');
+const myGroups = document.getElementById('groups');
 const groupAddForm = document.getElementById('addgroup');
 const selectYouGroup = document.getElementById('selectgroup');
+
+const getAllGroups = async () => {
+  try {
+    const response = await fetch(`${API_BASE}/groups`, {
+      headers: {
+        Authorization: `Bearer ${Cookies.get('token')}`,
+      },
+    });
+    const data = await response.json();
+    renderAllGroups(data);
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 const getUserGroups = async () => {
   try {
@@ -70,11 +85,29 @@ const renderGroups = (groups) => {
     groupName.textContent = group.name;
 
     container.append(groupId, groupName);
-    allGroups.append(container);
+    myGroups.append(container);
   });
 };
 
 getUserGroups();
+
+const renderAllGroups = (groups) => {
+  groups.forEach((group) => {
+    console.log(group);
+    const container = document.createElement('div');
+    container.classList.add('group');
+    const groupId = document.createElement('h4');
+    const groupName = document.createElement('p');
+
+    groupId.textContent = `ID: ${group.id}`;
+    groupName.textContent = group.name;
+
+    container.append(groupId, groupName);
+    allGroups.append(container);
+  });
+};
+
+getAllGroups();
 // document.addEventListener('DOMContentLoaded', async () => {
 //   const userGroups = await getUserGroups();
 

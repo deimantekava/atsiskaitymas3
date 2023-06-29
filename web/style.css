@@ -149,6 +149,10 @@ main .login-card .social-links .google {
   display: flex;
   flex-wrap: wrap;
 }
+#allgroups {
+  display: flex;
+  flex-wrap: wrap;
+}
 
 .select {
   margin: 2rem;
@@ -156,6 +160,13 @@ main .login-card .social-links .google {
 }
 
 #addgroup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+#selectgroup {
   display: flex;
   justify-content: center;
   align-items: center;
