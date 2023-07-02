@@ -99,7 +99,9 @@ const renderGroups = (groups) => {
     groupName.textContent = group.name;
 
     myGroups.addEventListener('click', async () => {
-      window.location.replace(`.bills.html`);
+      const id = groupId.value;
+      localStorage.setItem('selectedGroup', id);
+      window.location.replace(`./bills.html`);
     });
 
     container.append(groupId, groupName);
@@ -132,7 +134,7 @@ groupAddForm.addEventListener('submit', async (event) => {
   const data = {
     name: event.target.querySelector('input').value,
   };
-  const groupResponse = await addGroups(data);
+  await addGroups(data);
 });
 
 selectYouGroup.addEventListener('submit', async (event) => {
@@ -140,7 +142,7 @@ selectYouGroup.addEventListener('submit', async (event) => {
   const data = {
     group_id: event.target.querySelector('input').value,
   };
-  const selectgroupResponse = await selectGroup(data);
+  await selectGroup(data);
 });
 
 selectGroup();
