@@ -29,7 +29,6 @@ form.addEventListener('submit', async (event) => {
 
   const userData = await onLoginUser(payload);
   if (userData.token) {
-    // document.cookie = `token=${userData.token};`;
     Cookies.set('token', userData.token);
     window.location.replace('./groups.html');
   }

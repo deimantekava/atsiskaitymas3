@@ -160,6 +160,11 @@ server.post('/groups', async (req, res) => {
 
 server.post('/accounts', authenticate, async (req, res) => {
   try {
+    // if (req.body.group_id.length > 0) {
+    //   return res.status(400).json({
+    //     error: 'Group is already created!',
+    //   });
+    // }
     const [response] = await dbPool.execute(
       'INSERT INTO accounts (group_id, user_id) VALUES (?, ?)',
       [req.body.group_id, req.user.id],
@@ -205,7 +210,9 @@ server.get('/bills/:group_id', async (req, res) => {
 
 server.get('/bills', async (req, res) => {
   try {
-    const [bills] = await dbPool.query('SELECT amount, description FROM bills');
+    const [bills] = await dbPool.query(
+      'SELECT amount, description, group_id FROM bills',
+    );
     return res.json(bills);
   } catch (err) {
     return res.status(500).end();

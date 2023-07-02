@@ -10,8 +10,11 @@
     <script src="bills.js" defer></script>
   </head>
   <body>
+    <a href="./groups.html">Back to groups</a>
     <h1>Add bill</h1>
-    <form>
+    <form id="addbills">
+      <label for="groupid">Group Id:</label>
+      <input type="text" name="groupid" id="groupid" required />
       <label for="billamount">Amount:</label>
       <input type="text" name="billamount" id="billamount" required />
       <label for="billdescription">Description:</label>
@@ -25,6 +28,6 @@
     </form>
 
     <h1>Group's bills:</h1>
-    <div></div>
+    <div id="output"></div>
   </body>
 </html>
