@@ -67,11 +67,14 @@ addBills.addEventListener('submit', async (event) => {
     group_id: groupIdInput.value,
   };
   await postBills(data);
+
+  window.location.reload();
 });
 
 const renderAllBills = (bills) => {
   bills.forEach((bill) => {
     const container = document.createElement('div');
+    container.classList.add('group');
     const groupId = document.createElement('h4');
     const billAmount = document.createElement('p');
     const billDescription = document.createElement('p');
