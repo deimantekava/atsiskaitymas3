@@ -26,11 +26,18 @@ form.addEventListener('submit', async (event) => {
     email: event.target.email.value,
     password: event.target.password.value,
   };
+  const pass1 = document.getElementById('password').value;
+  const pass2 = document.getElementById('conpassword').value;
 
   const userData = await onRegisterUser(payload);
+
   console.log(userData);
-  if (userData.token) {
+  console.log(pass1 === pass2);
+  if (userData.token && pass1 === pass2) {
     Cookies.set('token', userData.token);
     window.location.replace('./groups.html');
+  } else {
+    document.getElementById('password').style.borderColor = '#E34234';
+    document.getElementById('conpassword').style.borderColor = '#E34234';
   }
 });

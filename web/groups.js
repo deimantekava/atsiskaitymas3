@@ -135,6 +135,7 @@ groupAddForm.addEventListener('submit', async (event) => {
     name: event.target.querySelector('input').value,
   };
   await addGroups(data);
+  window.location.reload();
 });
 
 selectYouGroup.addEventListener('submit', async (event) => {
@@ -143,6 +144,7 @@ selectYouGroup.addEventListener('submit', async (event) => {
     group_id: event.target.querySelector('input').value,
   };
   await selectGroup(data);
+  window.location.reload();
 });
 
 selectGroup();

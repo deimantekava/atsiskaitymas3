@@ -6,7 +6,7 @@
 }
 
 main {
-  background-image: url(https://colorlib.com/etc/lf/Login_v4/images/bg-01.jpg);
+  background-color: rgb(40, 128, 206);
   min-height: 100vh;
   background-position: center;
   background-repeat: no-repeat;
@@ -171,4 +171,17 @@ main .login-card .social-links .google {
   justify-content: center;
   align-items: center;
   gap: 16px;
+}
+
+#addbills {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.add {
+  margin: 2rem;
+  text-align: center;
 }
